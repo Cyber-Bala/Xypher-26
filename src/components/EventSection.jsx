@@ -19,6 +19,7 @@ const events = [
     number: "I",
     label: "CTF",
     title: "Cyber CTF",
+    slug: "capture-the-flag",
     image: imgCTF,
     description: "Solve cybersecurity challenges in cryptography, web security, and forensics",
     detailTitle: "Capture The Flag",
@@ -35,6 +36,7 @@ const events = [
     number: "II",
     label: "Technical",
     title: "UI Blindfolded",
+    slug: "building-ui-blindfolded",
     image: imgUIBlindfold,
     description: "One designs verbally, one codes blindly — testing communication and UI skills",
     detailTitle: "Building UI Blindfolded",
@@ -51,6 +53,7 @@ const events = [
     number: "III",
     label: "Technical",
     title: "Project Expo",
+    slug: "project-expo",
     image: imgProjectExpo,
     description: "Showcase innovative real-world technical projects demonstrating practical applications",
     detailTitle: "Project Expo",
@@ -66,6 +69,7 @@ const events = [
     number: "IV",
     label: "Workshop",
     title: "Power BI Workshop",
+    slug: "power-bi-workshop",
     image: imgPowerBI,
     description: "Hands-on workshop introducing interactive dashboards using Power BI",
     detailTitle: "Power BI Workshop",
@@ -81,6 +85,7 @@ const events = [
     number: "V",
     label: "Technical",
     title: "Mystery Tech Auction",
+    slug: "mystery-tech-auction",
     image: imgTechAuction,
     description: "Bid for tech tools and build a project under constraints",
     detailTitle: "Mystery Tech Auction",
@@ -97,6 +102,7 @@ const events = [
     number: "VI",
     label: "Technical",
     title: "Treasure Hunt",
+    slug: "technical-treasure-hunt",
     image: imgTreasureHunt,
     description: "Follow technical clues and puzzles to progress through stages",
     detailTitle: "Technical Treasure Hunt",
@@ -113,6 +119,7 @@ const events = [
     number: "VII",
     label: "Technical",
     title: "App Development",
+    slug: "app-development",
     image: imgAppDev,
     description: "Design and develop applications that address real-world problems",
     detailTitle: "App Development",
@@ -128,6 +135,7 @@ const events = [
     number: "VIII",
     label: "Workshop",
     title: "DevOps Workshop",
+    slug: "devops-workshop",
     image: imgDevOps,
     description: "Learn practical DevOps concepts, integration, and deployment",
     detailTitle: "DevOps Workshop",
@@ -148,7 +156,7 @@ const EventSection = () => {
     <>
       <section className="relative min-h-screen flex flex-col items-center justify-center py-24 overflow-hidden">
         {/* Background radial */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(270_40%_8%)_0%,_hsl(270_20%_4%)_70%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(45_40%_8%)_0%,_hsl(45_20%_4%)_70%)]" />
 
         {/* Section header */}
         <motion.div

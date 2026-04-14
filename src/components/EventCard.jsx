@@ -39,8 +39,8 @@ const EventCard = ({ event, onSelect }) => {
         {/* Decorative top arcs */}
         <div className="absolute top-6 left-1/2 -translate-x-1/2 w-40 h-16">
           <svg viewBox="0 0 160 60" className="w-full h-full opacity-30">
-            <path d="M20,55 Q80,5 140,55" fill="none" stroke="hsl(270, 80%, 60%)" strokeWidth="0.8" />
-            <path d="M35,50 Q80,15 125,50" fill="none" stroke="hsl(270, 80%, 60%)" strokeWidth="0.5" />
+            <path d="M20,55 Q80,5 140,55" fill="none" stroke="hsl(45, 80%, 60%)" strokeWidth="0.8" />
+            <path d="M35,50 Q80,15 125,50" fill="none" stroke="hsl(45, 80%, 60%)" strokeWidth="0.5" />
           </svg>
         </div>
 

@@ -6,30 +6,30 @@
 
 @layer base {
   :root {
-    --background: 270 20% 4%;
-    --foreground: 270 20% 92%;
-    --card: 270 15% 8%;
-    --card-foreground: 270 20% 92%;
-    --popover: 270 15% 8%;
-    --popover-foreground: 270 20% 92%;
-    --primary: 270 80% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 280 60% 20%;
-    --secondary-foreground: 270 20% 92%;
-    --muted: 270 10% 15%;
-    --muted-foreground: 270 10% 55%;
-    --accent: 280 100% 65%;
-    --accent-foreground: 0 0% 100%;
+    --background: 45 10% 4%; /* Near black with hint of gold */
+    --foreground: 60 10% 98%; /* Off-white #fafaf9 */
+    --card: 45 15% 8%;
+    --card-foreground: 60 10% 98%;
+    --popover: 45 15% 8%;
+    --popover-foreground: 60 10% 98%;
+    --primary: 45 65% 50%; /* Gold #c9a227 approximation */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 45 60% 15%;
+    --secondary-foreground: 60 10% 98%;
+    --muted: 45 10% 15%;
+    --muted-foreground: 45 10% 65%;
+    --accent: 45 80% 60%;
+    --accent-foreground: 0 0% 0%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 270 30% 20%;
-    --input: 270 30% 20%;
-    --ring: 270 80% 60%;
+    --border: 45 30% 20%;
+    --input: 45 30% 20%;
+    --ring: 45 80% 60%;
     --radius: 0.5rem;
 
-    --glow-primary: 270 80% 60%;
-    --glow-accent: 280 100% 65%;
-    --smoke-color: 270 60% 40%;
+    --glow-primary: 45 80% 60%;
+    --glow-accent: 45 100% 65%;
+    --smoke-color: 45 40% 30%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -39,6 +39,13 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* XYPHER specific variables for Auth and other pages */
+    --xypher-gold: #c9a227;
+    --xypher-text: #fafaf9;
+    --xypher-text-muted: hsl(var(--muted-foreground));
+    --font-heading: 'Bebas Neue', sans-serif;
+    --font-body: 'Rajdhani', sans-serif;
   }
 
   * {

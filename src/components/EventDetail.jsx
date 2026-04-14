@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 import SmokeEffect from "./SmokeEffect";
 
@@ -8,6 +9,7 @@ import SmokeEffect from "./SmokeEffect";
 
 
 const EventDetail = ({ event, onBack }) => {
+  const navigate = useNavigate();
   return (
     <motion.div
       className="fixed inset-0 z-50 bg-background overflow-hidden"
@@ -17,7 +19,7 @@ const EventDetail = ({ event, onBack }) => {
       transition={{ duration: 0.4 }}>
       
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(270_40%_10%)_0%,_hsl(270_20%_4%)_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(45_40%_10%)_0%,_hsl(45_20%_4%)_70%)]" />
 
       {/* Top bar */}
       <div className="relative z-30 flex items-center justify-between px-6 py-3 border-b border-primary/30">
@@ -133,19 +135,23 @@ const EventDetail = ({ event, onBack }) => {
             </motion.p>
           )}
 
-          {/* Continue button */}
-          <motion.button
-            className="flex items-center gap-3 border border-primary/50 px-10 py-3 rounded-full font-display uppercase tracking-[0.2em] text-sm text-primary hover:bg-primary/10 transition-colors border-glow"
+          {/* Buttons */}
+          <motion.div
+            className="flex items-center gap-4 mt-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.5 }}
-            onClick={onBack}>
-            
-            <span className="w-8 h-8 rounded-full border border-primary/40 flex items-center justify-center">
-              ▸
-            </span>
-            Continue
-          </motion.button>
+            transition={{ delay: 0.8, duration: 0.5 }}>
+            <button
+              onClick={() => navigate('/register?event=' + event.slug)}
+              className="flex items-center gap-3 bg-primary text-black px-10 py-3 rounded-full font-display uppercase tracking-[0.2em] text-sm hover:brightness-110 transition-all font-bold">
+              Register Now
+            </button>
+            <button
+              className="flex items-center gap-3 border border-primary/50 text-primary px-8 py-3 rounded-full font-display uppercase tracking-[0.2em] text-sm hover:bg-primary/10 transition-all font-bold"
+              onClick={onBack}>
+              Close
+            </button>
+          </motion.div>
         </div>
 
         {/* Right: Selected card */}
@@ -166,8 +172,8 @@ const EventDetail = ({ event, onBack }) => {
             {/* Decorative arcs */}
             <div className="absolute top-6 left-1/2 -translate-x-1/2 w-36 h-14">
               <svg viewBox="0 0 160 60" className="w-full h-full opacity-25">
-                <path d="M20,55 Q80,5 140,55" fill="none" stroke="hsl(270, 80%, 60%)" strokeWidth="0.8" />
-                <path d="M35,50 Q80,15 125,50" fill="none" stroke="hsl(270, 80%, 60%)" strokeWidth="0.5" />
+                <path d="M20,55 Q80,5 140,55" fill="none" stroke="hsl(45, 80%, 60%)" strokeWidth="0.8" />
+                <path d="M35,50 Q80,15 125,50" fill="none" stroke="hsl(45, 80%, 60%)" strokeWidth="0.5" />
               </svg>
             </div>
 
