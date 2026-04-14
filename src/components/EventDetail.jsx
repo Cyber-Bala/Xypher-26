@@ -203,7 +203,7 @@ const EventDetail = ({ event, onBack }) => {
       </div>
 
       {/* Smoke - denser on detail page */}
-      <SmokeEffect density={80} heightClass="h-96" />
+      <SmokeEffect density={80} />
     </motion.div>);
 
 };

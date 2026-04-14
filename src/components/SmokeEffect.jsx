@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 
 
 
-const SmokeEffect = ({ density = 60, heightClass = "h-40" }) => {
+const SmokeEffect = ({ density = 60 }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ const SmokeEffect = ({ density = 60, heightClass = "h-40" }) => {
   return (
     <canvas
       ref={canvasRef}
-      className={`absolute bottom-0 left-0 w-full ${heightClass} pointer-events-none z-10`} />);
+      className={`fixed inset-0 w-full h-full pointer-events-none z-10`} />);
 
 
 };

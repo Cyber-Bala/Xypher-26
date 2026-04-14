@@ -209,7 +209,7 @@ const EventSection = () => {
         </div>
 
         {/* Smoke */}
-        <SmokeEffect density={10} heightClass="h-96" />
+        <SmokeEffect density={10} />
       </section>
 
       {/* Detail overlay */}
