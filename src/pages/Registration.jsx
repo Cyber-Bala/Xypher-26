@@ -213,9 +213,19 @@ export default function Registration() {
         {/* Registration Form */}
         {!result && (
           <form onSubmit={handleSubmit} className="reg-form">
-            <div className="reg-form__header">
-              <h1>XYPHER'26 Registration</h1>
-              <p>Logged in as <strong>{user?.first_name} {user?.last_name}</strong></p>
+            <div className="reg-form__header flex flex-col items-center text-center mb-8">
+              <div className="flex items-baseline justify-center gap-2 mb-1">
+                <span className="font-display font-medium text-5xl md:text-6xl text-[#fafaf9] tracking-tight">
+                  XYPHER
+                </span>
+                <span className="font-display font-medium text-3xl md:text-4xl text-[#c9a227]">
+                  '26
+                </span>
+              </div>
+              <div className="font-cinzel text-2xl md:text-3xl text-[#fafaf9] font-bold tracking-[0.3em] uppercase opacity-80 mb-4">
+                Registration
+              </div>
+              <p className="w-full text-primary/80 font-medium">Logged in as <strong>{user?.first_name} {user?.last_name}</strong></p>
             </div>
 
             {error && <div className="reg-error">{error}</div>}

@@ -285,6 +285,7 @@ def my_registrations(request):
         reg_data = {
             'id': reg.id,
             'event_id': reg.event.id,
+            'event_slug': reg.event.slug,
             'event_name': reg.event.name,
             'event_type': reg.event.event_type,
             'event_day': reg.event.day,

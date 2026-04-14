@@ -1,6 +1,7 @@
 // src/App.jsx
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom"
 import { AuthProvider, useAuth } from "./context/AuthContext"
+import { motion, AnimatePresence } from "framer-motion"
 
 // pages
 import HomePage from "./pages/HomePage"
@@ -9,6 +10,9 @@ import NotFound from "./pages/NotFound.jsx"
 import Login from "./pages/Login.jsx"
 import Signup from "./pages/Signup.jsx"
 import Registration from "./pages/Registration.jsx"
+
+// components
+import SmokeEffect from "./components/SmokeEffect"
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
@@ -43,26 +47,50 @@ function ProtectedRoute({ children }) {
 
 function AppRoutes() {
   const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
+
+  // Route-based smoke density: Active ONLY on Events page per user request
+  const getSmokeDensity = () => {
+    if (location.pathname === '/events') return 70;
+    return 0; // Disabled for all other pages
+  };
+
+  const smokeDensity = getSmokeDensity();
 
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      {/* Making events public based on original Xypher behaviour, or we can protect it. Keeping it public for now */}
-      <Route path="/events" element={<EventsPage />} />
-      
-      {/* Auth routes */}
-      <Route path="/login" element={
-        !loading && isAuthenticated ? <Navigate to="/events" replace /> : <Login />
-      } />
-      <Route path="/signup" element={
-        !loading && isAuthenticated ? <Navigate to="/events" replace /> : <Signup />
-      } />
-      <Route path="/register" element={
-        <ProtectedRoute><Registration /></ProtectedRoute>
-      } />
+    <>
+      {/* Global Atmosphere Layer - Conditional Visibility */}
+      {smokeDensity > 0 && <SmokeEffect density={smokeDensity} />}
 
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+      <AnimatePresence mode="wait">
+      <motion.div
+        key={location.pathname}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -10 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      >
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<HomePage />} />
+          {/* Making events public based on original Xypher behaviour, or we can protect it. Keeping it public for now */}
+          <Route path="/events" element={<EventsPage />} />
+          
+          {/* Auth routes */}
+          <Route path="/login" element={
+            !loading && isAuthenticated ? <Navigate to="/events" replace /> : <Login />
+          } />
+          <Route path="/signup" element={
+            !loading && isAuthenticated ? <Navigate to="/events" replace /> : <Signup />
+          } />
+          <Route path="/register" element={
+            <ProtectedRoute><Registration /></ProtectedRoute>
+          } />
+
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </motion.div>
+    </AnimatePresence>
+    </>
   );
 }
 

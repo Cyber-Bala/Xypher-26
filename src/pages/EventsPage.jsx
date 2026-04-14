@@ -5,7 +5,7 @@ import Footer from "../components/Footer"
 
 function EventsPage() {
   return (
-    <main className="bg-[#0a0a0a] min-h-screen selection:bg-[#c9a227] selection:text-[#0a0a0a]">
+    <main className="bg-transparent relative z-10 min-h-screen selection:bg-[#c9a227] selection:text-[#0a0a0a]">
       <Navbar />
       <EventSection />
       <Footer />

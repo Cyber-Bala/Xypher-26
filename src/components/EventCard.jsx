@@ -26,7 +26,7 @@ const EventCard = ({ event, onSelect }) => {
       whileHover={{ scale: 1.04, y: -8 }}
       transition={{ duration: 0.3 }}>
       
-      <div className="relative w-full h-full rounded-lg border border-primary/40 bg-card overflow-hidden border-glow group-hover:card-glow-hover transition-shadow duration-500">
+      <div className="relative w-full h-full rounded-lg border border-primary/40 bg-[#0d0d0d] overflow-hidden border-glow group-hover:card-glow-hover transition-shadow duration-500">
         {/* Corner ornaments */}
         <div className="absolute top-3 left-3 w-6 h-6 border-t border-l border-primary/60" />
         <div className="absolute top-3 right-3 w-6 h-6 border-t border-r border-primary/60" />
@@ -46,7 +46,7 @@ const EventCard = ({ event, onSelect }) => {
 
         {/* Number badge */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2">
-          <div className="bg-card border border-primary/50 px-5 py-2 mt-1">
+          <div className="bg-[#0d0d0d] border border-primary/50 px-5 py-2 mt-1">
             <span className="font-cinzel text-lg text-primary font-bold">{number}</span>
           </div>
         </div>
@@ -72,7 +72,7 @@ const EventCard = ({ event, onSelect }) => {
 
         {/* Choose button */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <div className="border border-primary/50 px-8 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="border border-primary/50 bg-[#0d0d0d] px-8 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <span className="font-display text-sm uppercase tracking-[0.15em] text-primary">Choose</span>
           </div>
         </div>

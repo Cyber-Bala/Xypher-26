@@ -2,13 +2,14 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
   const navigate = useNavigate()
-
-  const isEventsPage = location.pathname === "/events"
+  const { isAuthenticated, user, logout } = useAuth()
+  const isSpecialPage = ["/events", "/login", "/signup", "/register"].some(path => location.pathname.startsWith(path));
 
   const menuItems = [
     { label: "Home", href: "#home" },
@@ -34,9 +35,13 @@ function Navbar() {
         const target = document.getElementById(id)
         if (target) {
           target.scrollIntoView({ behavior: "smooth", block: "start" })
-        } else {
-          window.location.hash = href
         }
+      } else {
+        // Navigate to home; HomePage.jsx will handle the scroll via useEffect
+        navigate("/")
+        // Small delay to ensure hash is processed if needed, 
+        // though HomePage.jsx check is sturdier.
+        window.location.hash = href
       }
       setIsMenuOpen(false)
       return
@@ -66,18 +71,7 @@ function Navbar() {
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         <div className="flex items-center justify-between">
-          {/* Left: Back on /events, Menu elsewhere */}
-          {isEventsPage ? (
-            <button
-              onClick={handleBack}
-              className="flex items-center gap-2 text-[#fafaf9] hover:text-[#c9a227] transition-colors"
-            >
-              <span className="text-xl leading-none">&larr;</span>
-              <span className="text-xs tracking-[0.2em] uppercase hidden md:block">
-                Back
-              </span>
-            </button>
-          ) : (
+          <div className="flex items-center gap-4">
             <button
               onClick={() => setIsMenuOpen(true)}
               className="group flex items-center gap-3 text-[#fafaf9] hover:text-[#c9a227] transition-colors"
@@ -87,47 +81,80 @@ function Navbar() {
                 <span className="block w-6 h-[2px] bg-current" />
                 <span className="block w-4 h-[2px] bg-current group-hover:w-6 transition-all" />
               </div>
-              <span className="text-xs tracking-[0.2em] uppercase hidden md:block">
+              <span className="text-sm tracking-[0.2em] uppercase hidden md:block">
                 Menu
               </span>
             </button>
+
+            {isSpecialPage && (
+              <button
+                onClick={handleBack}
+                className="flex items-center gap-2 text-[#fafaf9]/60 hover:text-[#c9a227] transition-colors pl-4 border-l border-[#fafaf9]/20"
+              >
+                <span className="text-xl leading-none">&larr;</span>
+                <span className="text-sm tracking-[0.2em] uppercase hidden md:block">
+                  Back
+                </span>
+              </button>
+            )}
+          </div>
+
+          {/* Center logo -> home, then hero scroll - Hidden on auth pages per user request */}
+          {!["/login", "/signup"].includes(location.pathname) && (
+            <Link
+              to="/"
+              onClick={() => setTimeout(scrollToHero, 50)}
+              className="absolute left-1/2 -translate-x-1/2 flex items-baseline gap-1"
+            >
+              <span className="font-display font-medium text-4xl md:text-5xl text-[#fafaf9] tracking-tight">
+                XYPHER
+              </span>
+              <span className="font-display font-medium text-2xl md:text-3xl text-[#c9a227]">
+                &apos;26
+              </span>
+            </Link>
           )}
 
-          {/* Center logo -> home, then hero scroll */}
-          <Link
-            to="/"
-            onClick={() => setTimeout(scrollToHero, 50)}
-            className="absolute left-1/2 -translate-x-1/2 flex items-baseline gap-1"
-          >
-            <span className="font-display font-medium text-2xl md:text-3xl text-[#fafaf9] tracking-tight">
-              XYPHER
-            </span>
-            <span className="font-display font-medium text-lg md:text-xl text-[#c9a227]">
-              &apos;26
-            </span>
-          </Link>
-
-          {/* Right side - Login / Sign up */}
+          {/* Right side - Login / Sign up or Logout */}
           <div className="hidden md:flex items-center gap-4">
-            <button
-              type="button"
-              className="text-xs tracking-[0.2em] uppercase text-[#fafaf9]/70 hover:text-[#c9a227] transition-colors"
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              className="text-xs tracking-[0.2em] uppercase text-[#0a0a0a] bg-[#c9a227] px-4 py-1.5 rounded-full hover:bg-[#f4cf4a] transition-colors"
-            >
-              Sign up
-            </button>
+            {!isAuthenticated ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => navigate("/login")}
+                  className="text-sm tracking-[0.2em] uppercase text-[#fafaf9]/70 hover:text-[#c9a227] transition-colors"
+                >
+                  Login
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate("/signup")}
+                  className="text-sm tracking-[0.2em] uppercase text-[#0a0a0a] bg-[#c9a227] px-6 py-2 rounded-full hover:bg-[#f4cf4a] transition-colors"
+                >
+                  Sign up
+                </button>
+              </>
+            ) : (
+              <div className="flex items-center gap-4">
+                <span className="text-xs tracking-widest uppercase text-[#c9a227] font-medium border-r border-[#c9a227]/30 pr-4">
+                  {user?.first_name || 'Survivor'}
+                </span>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="text-sm tracking-[0.2em] uppercase text-[#fafaf9]/70 hover:text-red-500 transition-colors"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </motion.nav>
 
-      {/* 3/4 screen side menu – only when not on /events */}
+      {/* 3/4 screen side menu */}
       <AnimatePresence>
-        {!isEventsPage && isMenuOpen && (
+        {isMenuOpen && (
           <>
             {/* Dimmed backdrop but still clickable to close */}
             <motion.div
@@ -169,13 +196,13 @@ function Navbar() {
                   <span className="absolute top-1/2 left-0 w-6 h-[2px] bg-current rotate-45" />
                   <span className="absolute top-1/2 left-0 w-6 h-[2px] bg-current -rotate-45" />
                 </div>
-                <span className="text-xs tracking-[0.2em] uppercase hidden md:block">
+                <span className="text-sm tracking-[0.2em] uppercase hidden md:block">
                   Close
                 </span>
               </button>
 
               {/* Menu content */}
-              <div className="h-full flex flex-col justify-center px-12 md:px-16 lg:px-20">
+              <div className="h-full flex flex-col justify-center px-12 md:px-16 lg:px-20 relative">
                 <div className="space-y-2">
                   {menuItems.map((item, i) => (
                     <div key={item.label} className="overflow-hidden">
@@ -208,6 +235,44 @@ function Navbar() {
                     </div>
                   ))}
                 </div>
+
+                {/* Mobile-only Auth Links */}
+                <motion.div 
+                  className="mt-12 pt-8 border-t border-[#fafaf9]/10 md:hidden"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}>
+                  
+                  {!isAuthenticated ? (
+                    <div className="flex flex-col gap-4">
+                      <button
+                        onClick={() => { navigate("/login"); setIsMenuOpen(false); }}
+                        className="text-left text-lg tracking-[0.1em] uppercase text-[#fafaf9]/70 hover:text-[#c9a227]"
+                      >
+                        Login
+                      </button>
+                      <button
+                        onClick={() => { navigate("/signup"); setIsMenuOpen(false); }}
+                        className="text-left text-lg tracking-[0.1em] uppercase text-[#c9a227] font-bold"
+                      >
+                        Sign up
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-4">
+                      <div className="flex flex-col">
+                        <span className="text-[#c9a227] text-[10px] uppercase tracking-widest mb-1">Authenticated as</span>
+                        <span className="text-[#fafaf9] text-xl font-display">{user?.first_name} {user?.last_name}</span>
+                      </div>
+                      <button
+                        onClick={() => { logout(); setIsMenuOpen(false); }}
+                        className="text-left text-lg tracking-[0.1em] uppercase text-red-500/80 hover:text-red-500 font-medium"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </motion.div>
               </div>
 
               {/* Large decorative XYPHER */}

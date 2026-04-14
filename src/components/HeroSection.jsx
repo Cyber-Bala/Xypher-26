@@ -98,7 +98,7 @@ function HeroSection() {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 text-center"
+        className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 text-center pt-16 md:pt-24"
         style={{ y: contentY, opacity: contentOpacity }}
       >
         {/* Main headline */}

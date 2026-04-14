@@ -1,10 +1,5 @@
 import { useEffect, useRef } from "react";
 
-
-
-
-
-
 const SmokeEffect = ({ density = 60 }) => {
   const canvasRef = useRef(null);
 
@@ -15,30 +10,28 @@ const SmokeEffect = ({ density = 60 }) => {
     if (!ctx) return;
 
     let animId;
-    const particles =
-
-
-    [];
+    const particles = [];
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * (window.devicePixelRatio || 1);
-      canvas.height = canvas.offsetHeight * (window.devicePixelRatio || 1);
+      canvas.width = window.innerWidth * (window.devicePixelRatio || 1);
+      canvas.height = window.innerHeight * (window.devicePixelRatio || 1);
       ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
     };
+    
     resize();
     window.addEventListener("resize", resize);
 
-    const w = () => canvas.offsetWidth;
-    const h = () => canvas.offsetHeight;
+    const w = () => window.innerWidth;
+    const h = () => window.innerHeight;
 
     const spawn = () => {
-      const maxLife = 150 + Math.random() * 100;
+      const maxLife = 200 + Math.random() * 150;
       particles.push({
         x: Math.random() * w(),
-        y: h() + 10,
+        y: h() + 20,
         vx: (Math.random() - 0.5) * 1.5,
-        vy: -(0.3 + Math.random() * 1.0),
-        radius: 40 + Math.random() * 80,
+        vy: -(0.5 + Math.random() * 1.5),
+        radius: 60 + Math.random() * 100,
         opacity: 0,
         life: 0,
         maxLife
@@ -55,16 +48,18 @@ const SmokeEffect = ({ density = 60 }) => {
         p.life++;
         p.x += p.vx;
         p.y += p.vy;
-        p.vx += (Math.random() - 0.5) * 0.06;
+        p.vx += (Math.random() - 0.5) * 0.08;
         const progress = p.life / p.maxLife;
-        p.opacity = progress < 0.25 ? progress / 0.25 * 0.35 : 0.35 * (1 - (progress - 0.25) / 0.75);
-        p.radius += 0.4;
+        
+        // High-end atmospheric opacity
+        p.opacity = progress < 0.2 ? (progress / 0.2) * 0.18 : 0.18 * (1 - (progress - 0.2) / 0.8);
+        p.radius += 0.8;
 
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
-        grad.addColorStop(0, `rgba(130, 40, 200, ${p.opacity})`);
-        grad.addColorStop(0.3, `rgba(100, 20, 160, ${p.opacity * 0.7})`);
-        grad.addColorStop(0.6, `rgba(60, 10, 120, ${p.opacity * 0.4})`);
-        grad.addColorStop(1, `rgba(30, 0, 60, 0)`);
+        grad.addColorStop(0, `rgba(201, 162, 39, ${p.opacity})`);
+        grad.addColorStop(0.4, `rgba(180, 140, 30, ${p.opacity * 0.6})`);
+        grad.addColorStop(0.8, `rgba(100, 80, 20, ${p.opacity * 0.2})`);
+        grad.addColorStop(1, `rgba(40, 30, 10, 0)`);
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -85,9 +80,9 @@ const SmokeEffect = ({ density = 60 }) => {
   return (
     <canvas
       ref={canvasRef}
-      className={`fixed inset-0 w-full h-full pointer-events-none z-10`} />);
-
-
+      className="fixed inset-0 w-full h-full pointer-events-none z-[10]"
+    />
+  );
 };
 
 export default SmokeEffect;

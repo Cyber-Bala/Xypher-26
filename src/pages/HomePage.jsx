@@ -42,6 +42,20 @@ function HomePage() {
     }
   }, [introComplete, showContent])
 
+  // Handle incoming hash links (scrolling to About, FAQ etc.)
+  useEffect(() => {
+    if (showContent && window.location.hash) {
+      const id = window.location.hash.slice(1)
+      const target = document.getElementById(id)
+      if (target) {
+        // Longer timeout to ensure components are mounted and page-transition is playing
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" })
+        }, 500)
+      }
+    }
+  }, [showContent])
+
   return (
     <main className="bg-[#0a0a0a] min-h-screen selection:bg-[#c9a227] selection:text-[#0a0a0a]">
       {/* Intro overlay – only if it has NOT played before */}

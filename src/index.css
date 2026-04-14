@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,24 +6,24 @@
 
 @layer base {
   :root {
-    --background: 45 10% 4%; /* Near black with hint of gold */
-    --foreground: 60 10% 98%; /* Off-white #fafaf9 */
-    --card: 45 15% 8%;
-    --card-foreground: 60 10% 98%;
-    --popover: 45 15% 8%;
-    --popover-foreground: 60 10% 98%;
+    --background: 0 0% 4%; /* Pure dark neutral */
+    --foreground: 0 0% 98%; 
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
     --primary: 45 65% 50%; /* Gold #c9a227 approximation */
     --primary-foreground: 0 0% 0%;
-    --secondary: 45 60% 15%;
-    --secondary-foreground: 60 10% 98%;
-    --muted: 45 10% 15%;
-    --muted-foreground: 45 10% 65%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 65%;
     --accent: 45 80% 60%;
     --accent-foreground: 0 0% 0%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 45 30% 20%;
-    --input: 45 30% 20%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
     --ring: 45 80% 60%;
     --radius: 0.5rem;
 
@@ -45,7 +45,7 @@
     --xypher-text: #fafaf9;
     --xypher-text-muted: hsl(var(--muted-foreground));
     --font-heading: 'Bebas Neue', sans-serif;
-    --font-body: 'Rajdhani', sans-serif;
+    --font-body: 'Outfit', sans-serif;
   }
 
   * {
@@ -61,7 +61,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Outfit', sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -94,10 +94,10 @@
 
 @layer utilities {
   .font-cinzel {
-    font-family: 'Bebas Neue', serif;
+    font-family: 'Bebas Neue', sans-serif;
   }
   .font-rajdhani {
-    font-family: 'Rajdhani', sans-serif;
+    font-family: 'Outfit', sans-serif;
   }
   .font-display {
     font-family: 'Bebas Neue', sans-serif;
