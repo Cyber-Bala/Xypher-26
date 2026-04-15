@@ -76,25 +76,6 @@ function IntroAnimation() {
           >
             XYPHER
           </motion.h1>
-
-          {/* Year badge - slides in */}
-          <motion.div
-            className="absolute -right-2 sm:-right-4 md:-right-8 top-1/2 -translate-y-1/2 translate-x-[0.3em]" // slightly more gap
-            initial={{ x: 50, opacity: 0 }}
-            animate={{
-              x: phase >= 2 ? 0 : 50,
-              opacity: phase >= 2 ? 1 : 0,
-            }}
-            transition={{
-              duration: 0.6,
-              delay: 0.2,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            <span className="font-display text-[5vw] sm:text-[4vw] md:text-[3vw] font-bold text-[#c9a227]">
-              &apos;26
-            </span>
-          </motion.div>
         </motion.div>
 
         {/* Subtitle reveal */}
