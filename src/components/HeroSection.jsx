@@ -1,9 +1,11 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import MagneticButton from "./MagneticButton";
 
 function HeroSection() {
   const sectionRef = useRef(null);
+  const navigate = useNavigate();
   const scrollProgress = useMotionValue(0);
   const smoothProgress = useSpring(scrollProgress, {
     stiffness: 100,
@@ -99,7 +101,7 @@ function HeroSection() {
 
       {/* Content */}
       <motion.div
-        className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 text-center pt-16 md:pt-24"
+        className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 text-center pt-24 md:pt-32"
         style={{ y: contentY, opacity: contentOpacity }}
       >
         {/* Main headline: XYPHER'26 */}
@@ -121,7 +123,7 @@ function HeroSection() {
 
         {/* Tagline */}
         <motion.p
-          className="text-base sm:text-lg md:text-xl text-[#fafaf9]/60 max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed px-4 tracking-tight"
+          className="text-base sm:text-lg md:text-xl text-[#fafaf9]/60 max-w-2xl mx-auto mb-4 sm:mb-6 leading-relaxed px-4 tracking-tight"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -132,7 +134,7 @@ function HeroSection() {
 
         {/* Clean Horizontal Countdown Bar */}
         <motion.div
-          className="w-full max-w-4xl mx-auto mb-8 sm:mb-12 px-4"
+          className="w-full max-w-4xl mx-auto mb-5 sm:mb-8 px-4"
           initial={{ opacity: 0, scale: 0.9, y: 40 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
@@ -219,26 +221,34 @@ function HeroSection() {
           <span className="w-px h-3 sm:h-4 bg-[#fafaf9]/20" />
           <span>Rajalakshmi Engineering College</span>
         </motion.div>
-      </motion.div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.8, duration: 1 }}
-      >
+        {/* Action Buttons */}
         <motion.div
-          className="flex flex-col items-center gap-3 sm:gap-4"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+          className="mt-5 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.8 }}
         >
-          <span className="text-[9px] sm:text[10px] tracking-[0.2em] uppercase text-[#fafaf9]/40">
-            Scroll to explore
-          </span>
-          <div className="w-px h-8 sm:h-12 bg-gradient-to-b from-[#c9a227]/50 to-transparent" />
+          <MagneticButton
+            as="button"
+            onClick={() => navigate("/events")}
+            className="inline-flex items-center justify-center px-8 py-3 bg-[#0a0a0a] border border-[#c9a227]/50 text-[#c9a227] font-display font-bold uppercase tracking-[0.2em] text-sm rounded-full hover:bg-[#c9a227]/10 transition-colors shadow-[0_0_15px_rgba(201,162,39,0.1)] hover:shadow-[0_0_30px_rgba(201,162,39,0.2)]"
+          >
+            Explore Events
+          </MagneticButton>
+          <MagneticButton
+            as="a"
+            href="https://xypher-fest.netlify.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center px-8 py-3 bg-[#c9a227] text-[#0a0a0a] font-display font-bold uppercase tracking-[0.2em] text-sm rounded-full hover:bg-[#f4cf4a] transition-colors shadow-[0_0_30px_rgba(201,162,39,0.3)] hover:shadow-[0_0_40px_rgba(201,162,39,0.5)]"
+          >
+            Register Now
+          </MagneticButton>
         </motion.div>
       </motion.div>
+
+
 
       {/* Corner decorations */}
       <div className="absolute top-20 sm:top-24 left-4 sm:left-8 md:left-12 z-10 hidden sm:block">

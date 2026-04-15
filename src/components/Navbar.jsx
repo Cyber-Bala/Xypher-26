@@ -1,19 +1,43 @@
 // src/components/Navbar.jsx
 import { motion, AnimatePresence } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useAuth } from "../context/AuthContext"
 import collegeLogo from "../logo/college.png"
 import ieeeCsLogo from "../logo/ieee_cs.png"
 
-function Navbar() {
+function Navbar({ forceScrolled, onBack }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [internalScrolled, setInternalScrolled] = useState(false)
+  const [logoVisible, setLogoVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+  const isScrolled = forceScrolled ?? internalScrolled;
+  
   const location = useLocation()
   const navigate = useNavigate()
   const { isAuthenticated, user, logout } = useAuth()
   const isSpecialPage = ["/events", "/login", "/signup", "/register"].some(
     (path) => location.pathname.startsWith(path)
   )
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    const handleScroll = () => {
+      setInternalScrolled(window.scrollY > 20)
+      // Home page: wait for hero logo to start disappearing (approx 300px)
+      // Other pages: show immediately or after 20px
+      setLogoVisible(location.pathname !== "/" || window.scrollY > 300)
+    }
+    
+    window.addEventListener("resize", handleResize)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll()
+    
+    return () => {
+      window.removeEventListener("resize", handleResize)
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [location.pathname])
 
   const menuItems = [
     { label: "Home", href: "#home" },
@@ -61,7 +85,11 @@ function Navbar() {
     }
   }
 
-  const handleBack = () => {
+  const handleBackInternal = () => {
+    if (onBack) {
+      onBack();
+      return;
+    }
     navigate("/", { replace: false })
     setTimeout(scrollToHero, 50)
   }
@@ -69,7 +97,11 @@ function Navbar() {
   return (
     <>
       <motion.nav
-        className="fixed top-0 left-0 right-0 z-40 px-6 md:px-12 py-6"
+        className={`fixed top-0 left-0 right-0 z-40 px-6 md:px-12 transition-all duration-300 ${
+          isScrolled
+            ? "py-6 bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-[#fafaf9]/10"
+            : "py-10 bg-transparent"
+        }`}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
@@ -92,7 +124,7 @@ function Navbar() {
 
             {isSpecialPage && (
               <button
-                onClick={handleBack}
+                onClick={handleBackInternal}
                 className="flex items-center gap-2 text-[#fafaf9]/60 hover:text-[#c9a227] transition-colors pl-4 border-l border-[#fafaf9]/20"
               >
                 <span className="text-xl leading-none">&larr;</span>
@@ -103,59 +135,60 @@ function Navbar() {
             )}
           </div>
 
-          {/* Center logos -> home, then hero scroll - Hidden on auth pages per user request */}
+          {/* Center: XYPHER'26 Brand Logo - Appears only on depth scroll on Home, or always on sub-pages */}
           {!["/login", "/signup"].includes(location.pathname) && (
-            <Link
-              to="/"
-              onClick={() => setTimeout(scrollToHero, 50)}
-              className="absolute left-1/2 -translate-x-1/2 flex items-center gap-4"
-            >
-              <img
-                src={collegeLogo}
-                alt="College logo"
-                className="h-10 md:h-12 w-auto object-contain"
-              />
-              <img
-                src={ieeeCsLogo}
-                alt="IEEE CS logo"
-                className="h-8 md:h-10 w-auto object-contain"
-              />
-            </Link>
+            <div className="absolute left-1/2 -translate-x-1/2">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{
+                  opacity: (forceScrolled || logoVisible) ? 1 : 0,
+                  y: (forceScrolled || logoVisible) ? 0 : -10,
+                }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                style={{ pointerEvents: (forceScrolled || logoVisible) ? "auto" : "none" }}
+              >
+                <Link
+                  to="/"
+                  onClick={() => setTimeout(scrollToHero, 50)}
+                  className="flex items-center gap-1 group"
+                >
+                  <span className="font-display text-3xl md:text-5xl font-bold text-[#fafaf9] tracking-tighter transition-all group-hover:text-primary group-hover:drop-shadow-[0_0_10px_rgba(201,162,39,0.3)]">
+                    XYPHER
+                  </span>
+                  <span className="font-display text-3xl md:text-5xl font-bold text-primary tracking-tighter drop-shadow-[0_0_8px_rgba(201,162,39,0.2)]">
+                    ’26
+                  </span>
+                </Link>
+              </motion.div>
+            </div>
           )}
 
-          {/* Right side - Login / Sign up or Logout */}
-          <div className="hidden md:flex items-center gap-4">
-            {!isAuthenticated ? (
-              <>
-                <button
-                  type="button"
-                  onClick={() => navigate("/login")}
-                  className="text-sm tracking-[0.2em] uppercase text-[#fafaf9]/70 hover:text-[#c9a227] transition-colors"
-                >
-                  Login
-                </button>
-                <button
-                  type="button"
-                  onClick={() => navigate("/signup")}
-                  className="text-sm tracking-[0.2em] uppercase text-[#0a0a0a] bg-[#c9a227] px-6 py-2 rounded-full hover:bg-[#f4cf4a] transition-colors"
-                >
-                  Sign up
-                </button>
-              </>
-            ) : (
-              <div className="flex items-center gap-4">
-                <span className="text-xs tracking-widest uppercase text-[#c9a227] font-medium border-r border-[#c9a227]/30 pr-4">
-                  {user?.first_name || "Survivor"}
-                </span>
-                <button
-                  type="button"
-                  onClick={logout}
-                  className="text-sm tracking-[0.2em] uppercase text-[#fafaf9]/70 hover:text-red-500 transition-colors"
-                >
-                  Logout
-                </button>
-              </div>
+          {/* Right side: Partner Logos - Dynamic swap on mobile, always visible on desktop */}
+          <div className="flex items-center gap-4 md:gap-8">
+            {!["/login", "/signup"].includes(location.pathname) && (
+              <motion.div 
+                className="flex items-center gap-4 md:gap-6"
+                animate={{
+                  opacity: (isMobile && (forceScrolled || logoVisible)) ? 0 : 1,
+                  pointerEvents: (isMobile && (forceScrolled || logoVisible)) ? "none" : "auto"
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <img
+                  src={collegeLogo}
+                  alt="College logo"
+                  className="h-8 md:h-12 w-auto object-contain transition-opacity"
+                />
+                <img
+                  src={ieeeCsLogo}
+                  alt="IEEE CS logo"
+                  className="h-8 md:h-10 w-auto object-contain transition-opacity"
+                />
+              </motion.div>
             )}
+            <div className="hidden md:flex items-center gap-4">
+              {/* Optional: Add user profile or additional actions here */}
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -244,56 +277,21 @@ function Navbar() {
                   ))}
                 </div>
 
-                {/* Mobile-only Auth Links */}
-                <motion.div
-                  className="mt-12 pt-8 border-t border-[#fafaf9]/10 md:hidden"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  {!isAuthenticated ? (
-                    <div className="flex flex-col gap-4">
-                      <button
-                        onClick={() => {
-                          navigate("/login")
-                          setIsMenuOpen(false)
-                        }}
-                        className="text-left text-lg tracking-[0.1em] uppercase text-[#fafaf9]/70 hover:text-[#c9a227]"
-                      >
-                        Login
-                      </button>
-                      <button
-                        onClick={() => {
-                          navigate("/signup")
-                          setIsMenuOpen(false)
-                        }}
-                        className="text-left text-lg tracking-[0.1em] uppercase text-[#c9a227] font-bold"
-                      >
-                        Sign up
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col gap-4">
-                      <div className="flex flex-col">
-                        <span className="text-[#c9a227] text-[10px] uppercase tracking-widest mb-1">
-                          Authenticated as
-                        </span>
-                        <span className="text-[#fafaf9] text-xl font-display">
-                          {user?.first_name} {user?.last_name}
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => {
-                          logout()
-                          setIsMenuOpen(false)
-                        }}
-                        className="text-left text-lg tracking-[0.1em] uppercase text-red-500/80 hover:text-red-500 font-medium"
-                      >
-                        Logout
-                      </button>
-                    </div>
-                  )}
-                </motion.div>
+
+              </div>
+
+              {/* Mobile Partner Logos inside Menu */}
+              <div className="md:hidden absolute bottom-24 left-12 flex items-center gap-6">
+                <img
+                  src={collegeLogo}
+                  alt="College logo"
+                  className="h-8 w-auto object-contain opacity-60"
+                />
+                <img
+                  src={ieeeCsLogo}
+                  alt="IEEE CS logo"
+                  className="h-8 w-auto object-contain opacity-60"
+                />
               </div>
 
               {/* Large decorative XYPHER */}

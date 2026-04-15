@@ -60,25 +60,41 @@ const EventCard = ({ event, onSelect }) => {
           </div>
         </div>
 
-        {/* Title & description */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-8 pt-16">
-          <h3 className="font-cinzel text-xl text-foreground font-bold mb-3 text-center text-glow-black">
+        {/* Title & description area - repositioned to start below the decorative image */}
+        <div className="absolute top-[210px] inset-x-0 bottom-0 flex flex-col items-center px-8">
+          <h3 className="font-cinzel text-xl text-foreground font-bold mb-4 text-center text-glow-black uppercase tracking-wider">
             {title}
           </h3>
-          <p className="font-display text-muted-foreground text-center text-base leading-relaxed">
+          <p className="font-display text-muted-foreground text-center text-[14px] leading-relaxed opacity-90 line-clamp-4">
             {description}
           </p>
         </div>
 
-        {/* Choose button */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <div className="border border-primary/50 bg-[#0d0d0d] px-8 py-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <span className="font-display text-sm uppercase tracking-[0.15em] text-primary">Choose</span>
-          </div>
+        {/* Bottom indicator: Lengthened Right-pointing Arrow in corner */}
+        <div className="absolute bottom-6 right-8">
+          <motion.div 
+            className="text-primary/70 group-hover:text-primary transition-colors duration-300"
+            animate={{ x: 0 }}
+            whileHover={{ x: 8 }}
+          >
+            <svg 
+              width="40" 
+              height="20" 
+              viewBox="0 0 40 20" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="1.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M5 10H35" />
+              <path d="M28 3L35 10L28 17" />
+            </svg>
+          </motion.div>
         </div>
 
         {/* Bottom glow */}
-        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-primary/10 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
       </div>
     </motion.div>);
 

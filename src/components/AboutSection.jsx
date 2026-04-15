@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom"
 import MagneticButton from "./MagneticButton"
 
 const revealPhrases = [
-  "XYPHER'26 is not just an event.",
-  "It's where the future is written.",
-  "Two days. Thrilling 8+ events.",
+  "XYPHER’26 is more than just an event—it’s the stage where passion meets possibility.",
+  "From mind-bending challenges to high-energy competitions, every moment is designed to push limits and spark brilliance.",
+  "Two thrilling days. 8+ dynamic events. One unforgettable experience.",
 ]
 
 // Removed Mentors & Participants
@@ -66,10 +66,10 @@ export function AboutSection() {
       </motion.div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-20 sm:py-28 md:py-32 lg:py-48">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-12 pt-20 pb-12 sm:pt-24 sm:pb-16 md:pt-28 md:pb-20 lg:pt-32 lg:pb-24">
         {/* Section indicator */}
         <motion.div
-          className="mb-12 sm:mb-16 md:mb-20 lg:mb-32"
+          className="mb-8 sm:mb-10 md:mb-12 lg:mb-16"
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
@@ -197,20 +197,21 @@ function RevealText({ text, index }) {
   const isInView = useInView(ref, { once: true, margin: "-50px" })
 
   return (
-    <div ref={ref} className="overflow-hidden mb-1 sm:mb-2 md:mb-4">
-      <motion.h2
-        className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl 2xl:text-6xl font-bold text-[#fafaf9] leading-[1.05] tracking-tight"
-        initial={{ y: "100%" }}
-        animate={isInView ? { y: 0 } : { y: "100%" }}
-        transition={{
-          duration: 0.8,
-          delay: index * 0.15,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-      >
+    <motion.div
+      ref={ref}
+      className="mb-4 sm:mb-5"
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{
+        duration: 0.8,
+        delay: index * 0.15,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      <p className="text-lg sm:text-xl md:text-2xl font-light text-[#fafaf9]/80 leading-relaxed">
         {text}
-      </motion.h2>
-    </div>
+      </p>
+    </motion.div>
   )
 }
 
