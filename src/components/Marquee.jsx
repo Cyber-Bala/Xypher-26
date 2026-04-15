@@ -5,7 +5,7 @@ const items = [
   "UI Whisper",
   "Xhibit",
   "Data Prism",
-  "Build & Bid",
+  "Bid & Build",
   "LogiX",
   "App-o-calypse",
   "Code2Cloud",
